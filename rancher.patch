@@ -1,17 +1,17 @@
 diff --git a/apps/frontend/src/router.ts b/apps/frontend/src/router.ts
-index 7b27e16b..2d446a25 100644
+index 7b27e16b..edc922ef 100644
 --- a/apps/frontend/src/router.ts
 +++ b/apps/frontend/src/router.ts
 @@ -15,6 +15,7 @@ import Router from 'vue-router';
  Vue.use(Router);
  
  const router = new Router({
-+  base: "#####PUBLIC_PATH#####",
++  base: "#####ROUTER_BASE_PATH#####",
    mode: 'history',
    routes: [
      {
 diff --git a/apps/frontend/src/store/server.ts b/apps/frontend/src/store/server.ts
-index b81f7371..d8bf731a 100644
+index b81f7371..100f048e 100644
 --- a/apps/frontend/src/store/server.ts
 +++ b/apps/frontend/src/store/server.ts
 @@ -84,7 +84,7 @@ class Server extends VuexModule implements IServerState {
@@ -27,12 +27,12 @@ index b81f7371..d8bf731a 100644
     */
    @Action
    public async CheckForServer() {
-+    axios.defaults.baseURL = "#####PUBLIC_PATH#####";
++    axios.defaults.baseURL = "#####AXIOS_BASE_URL#####";
      // This is the only function that manipulates the loading state. If loading is already set
      // then we have already loaded the server information and there is no need to check again.
      if (!this.loading) {
 diff --git a/apps/frontend/vue.config.js b/apps/frontend/vue.config.js
-index 52abc0a4..34b655a5 100644
+index 52abc0a4..a33ba339 100644
 --- a/apps/frontend/vue.config.js
 +++ b/apps/frontend/vue.config.js
 @@ -32,7 +32,7 @@ for (const file in files) {
@@ -40,7 +40,7 @@ index 52abc0a4..34b655a5 100644
  module.exports = {
    lintOnSave: 'warning',
 -  publicPath: '/',
-+  publicPath: "#####PUBLIC_PATH#####",
++  publicPath: "#####VUE_PUBLIC_PATH#####",
    devServer: {
      // JWT_SECRET is a required secret for the backend. If it is sourced
      // then it is safe to assume the app is in server mode in development.
