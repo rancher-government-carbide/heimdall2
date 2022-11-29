@@ -74,3 +74,4 @@ data/*
 
 # Fork garbage
 .github/
+README.md
