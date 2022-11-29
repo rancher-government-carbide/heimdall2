@@ -44,3 +44,37 @@ index 52abc0a4..34b655a5 100644
    devServer: {
      // JWT_SECRET is a required secret for the backend. If it is sourced
      // then it is safe to assume the app is in server mode in development.
+diff --git a/cmd.sh b/cmd.sh
+index 74db5f94..10520a57 100644
+--- a/cmd.sh
++++ b/cmd.sh
+@@ -1,4 +1,29 @@
+ #!/bin/sh
++
++if [[ $PUBLIC_PATH == "" ]]; then
++  echo "PUBLIC_PATH must be defined"
++  exit 1
++fi
++
++if [[ VUE_PUBLIC_PATH == "" ]]; then
++  VUE_PUBLIC_PATH=$PUBLIC_PATH
++fi
++
++if [[ ROUTER_BASE_PATH == "" ]]; then
++  ROUTER_BASE_PATH=$PUBLIC_PATH
++fi
++
++if [[ AXIOS_BASE_URL == "" ]]; then
++  AXIOS_BASE_URL=$PUBLIC_PATH
++fi
++
++sed -i "s|#####PUBLIC_PATH#####|$PUBLIC_PATH|g;" /app/dist/frontend/js/*.js
++sed -i "s|#####VUE_PUBLIC_PATH#####|$VUE_PUBLIC_PATH|g;" /app/dist/frontend/js/*.js
++sed -i "s|#####ROUTER_BASE_PATH#####|$ROUTER_BASE_PATH|g;" /app/dist/frontend/js/*.js
++sed -i "s|#####AXIOS_BASE_URL#####|$AXIOS_BASE_URL|g;" /app/dist/frontend/js/*.js
++
++echo "Configured with PUBLIC_PATH=$PUBLIC_PATH, VUE_PUBLIC_PATH=$VUE_PUBLIC_PATH, ROUTER_BASE_PATH=$ROUTER_BASE_PATH, AXIOS_BASE_URL=$AXIOS_BASE_URL"
++
+ set -e
+ yarn backend sequelize-cli db:migrate
+ yarn backend sequelize-cli db:seed:all
