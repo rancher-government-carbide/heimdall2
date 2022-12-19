@@ -31,49 +31,66 @@ index b81f7371..100f048e 100644
      // This is the only function that manipulates the loading state. If loading is already set
      // then we have already loaded the server information and there is no need to check again.
      if (!this.loading) {
-diff --git a/apps/frontend/vue.config.js b/apps/frontend/vue.config.js
-index 52abc0a4..a33ba339 100644
---- a/apps/frontend/vue.config.js
-+++ b/apps/frontend/vue.config.js
-@@ -32,7 +32,7 @@ for (const file in files) {
- 
- module.exports = {
-   lintOnSave: 'warning',
--  publicPath: '/',
-+  publicPath: "#####VUE_PUBLIC_PATH#####",
-   devServer: {
-     // JWT_SECRET is a required secret for the backend. If it is sourced
-     // then it is safe to assume the app is in server mode in development.
 diff --git a/cmd.sh b/cmd.sh
-index 74db5f94..10520a57 100644
+index 74db5f94..05cdfa62 100644
 --- a/cmd.sh
 +++ b/cmd.sh
-@@ -1,4 +1,29 @@
+@@ -1,4 +1,59 @@
  #!/bin/sh
 +
-+if [[ $PUBLIC_PATH == "" ]]; then
-+  echo "PUBLIC_PATH must be defined"
-+  exit 1
++if [[ "$HEIMDALL_NAMESPACE" == "" ]]; then
++  HEIMDALL_NAMESPACE="cattle-compliance-system"
 +fi
 +
-+if [[ VUE_PUBLIC_PATH == "" ]]; then
++if [[ "$HEIMDALL_NGINX_WORKLOAD" == "" ]]; then
++  HEIMDALL_NGINX_WORKLOAD="heimdall-nginx"
++fi
++
++if [[ "$HEIMDALL_NGINX_PORT" == "" ]]; then
++  HEIMDALL_NGINX_PORT="80"
++fi
++
++if [[ "$RCIDF_PATH" == "" ]]; then
++  RCIDF_PATH="/rancher/id"
++fi
++
++if [ ! -f "$RCIDF_PATH" ]; then
++  if [[ "$PUBLIC_PATH" == "" ]]; then
++    echo "One of $RCIDF_PATH or PUBLIC_PATH must be defined."
++    exit 1
++  fi
++else
++  # RCIDF PATH exists
++  # use it to construct PUBIC_PATH
++  CLUSTERID=$(cat $RCIDF_PATH)
++  PUBLIC_PATH="/k8s/clusters/$CLUSTERID/api/v1/namespaces/$HEIMDALL_NAMESPACE/services/http:$HEIMDALL_NGINX_WORKLOAD:$HEIMDALL_NGINX_PORT/proxy/"
++fi
++
++if [[ "$VUE_PUBLIC_PATH" == "" ]]; then
 +  VUE_PUBLIC_PATH=$PUBLIC_PATH
 +fi
 +
-+if [[ ROUTER_BASE_PATH == "" ]]; then
++if [[ "$ROUTER_BASE_PATH" == "" ]]; then
 +  ROUTER_BASE_PATH=$PUBLIC_PATH
 +fi
 +
-+if [[ AXIOS_BASE_URL == "" ]]; then
++if [[ "$AXIOS_BASE_URL" == "" ]]; then
 +  AXIOS_BASE_URL=$PUBLIC_PATH
 +fi
 +
-+sed -i "s|#####PUBLIC_PATH#####|$PUBLIC_PATH|g;" /app/dist/frontend/js/*.js
-+sed -i "s|#####VUE_PUBLIC_PATH#####|$VUE_PUBLIC_PATH|g;" /app/dist/frontend/js/*.js
-+sed -i "s|#####ROUTER_BASE_PATH#####|$ROUTER_BASE_PATH|g;" /app/dist/frontend/js/*.js
-+sed -i "s|#####AXIOS_BASE_URL#####|$AXIOS_BASE_URL|g;" /app/dist/frontend/js/*.js
++sed -i "s|#####PUBLIC_PATH#####|$PUBLIC_PATH|g;" /app/dist/frontend/js/*
 +
-+echo "Configured with PUBLIC_PATH=$PUBLIC_PATH, VUE_PUBLIC_PATH=$VUE_PUBLIC_PATH, ROUTER_BASE_PATH=$ROUTER_BASE_PATH, AXIOS_BASE_URL=$AXIOS_BASE_URL"
++sed -i "s|#####VUE_PUBLIC_PATH#####|$VUE_PUBLIC_PATH|g;" /app/dist/frontend/js/*
++sed -i "s|#####VUE_PUBLIC_PATH#####|$VUE_PUBLIC_PATH|g;" /app/dist/frontend/*.html
++
++sed -i "s|#####ROUTER_BASE_PATH#####|$ROUTER_BASE_PATH|g;" /app/dist/frontend/js/*
++sed -i "s|#####AXIOS_BASE_URL#####|$AXIOS_BASE_URL|g;" /app/dist/frontend/js/*
++
++echo "Configured with... "
++echo "PUBLIC_PATH=$PUBLIC_PATH"
++echo "VUE_PUBLIC_PATH=$VUE_PUBLIC_PATH"
++echo "ROUTER_BASE_PATH=$ROUTER_BASE_PATH"
++echo "AXIOS_BASE_URL=$AXIOS_BASE_URL"
 +
  set -e
  yarn backend sequelize-cli db:migrate

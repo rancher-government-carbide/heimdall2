@@ -28,19 +28,21 @@ FROM $BASE_CONTAINER as app
 WORKDIR /app
 
 COPY package.json ./
-COPY --from=builder /src/apps/backend/package.json apps/backend/
-COPY --from=builder /src/apps/frontend/package.json apps/frontend/
-COPY --from=builder /src/libs/interfaces/package.json libs/interfaces/
-COPY --from=builder /src/libs/password-complexity/ libs/password-complexity/
-COPY --from=builder /src/apps/backend/node_modules apps/backend/node_modules
-COPY --from=builder /src/apps/backend/dist apps/backend/dist
-COPY --from=builder /src/dist/ dist/
-COPY --from=builder /src/apps/backend/.sequelizerc /app/apps/backend/
-COPY --from=builder /src/apps/backend/db /app/apps/backend/db
-COPY --from=builder /src/apps/backend/config /app/apps/backend/config
-COPY --from=builder /src/apps/backend/migrations /app/apps/backend/migrations
-COPY --from=builder /src/apps/backend/seeders /app/apps/backend/seeders
-RUN chown node package.json libs libs/interfaces libs/interfaces/package.json libs/password-complexity apps/backend/node_modules apps/backend/seeders apps/backend/config apps/backend/db apps/backend/migrations apps/backend/seeders apps/backend/package.json apps/backend apps/frontend apps/frontend/package.json
+COPY --chown=node --from=builder /src/apps/backend/package.json apps/backend/
+COPY --chown=node --from=builder /src/apps/frontend/package.json apps/frontend/
+COPY --chown=node --from=builder /src/libs/interfaces/package.json libs/interfaces/
+COPY --chown=node --from=builder /src/libs/password-complexity/ libs/password-complexity/
+COPY --chown=node --from=builder /src/apps/backend/node_modules apps/backend/node_modules
+COPY --chown=node --from=builder /src/apps/backend/dist apps/backend/dist
+COPY --chown=node --from=builder /src/dist/ dist/
+COPY --chown=node --from=builder /src/apps/backend/.sequelizerc /app/apps/backend/
+COPY --chown=node --from=builder /src/apps/backend/db /app/apps/backend/db
+COPY --chown=node --from=builder /src/apps/backend/config /app/apps/backend/config
+COPY --chown=node --from=builder /src/apps/backend/migrations /app/apps/backend/migrations
+COPY --chown=node --from=builder /src/apps/backend/seeders /app/apps/backend/seeders
+# RUN chown -R node /app
+# RUN chown node package.json libs libs/interfaces libs/interfaces/package.json libs/password-complexity apps/backend/node_modules apps/backend/seeders apps/backend/config apps/backend/db apps/backend/migrations apps/backend/seeders apps/backend/package.json apps/backend apps/frontend apps/frontend/package.json
+# RUN chown node dist/frontend/js dist/frontend/js/* dist/frontend dist/frontend/*
 RUN chmod 0400 libs/interfaces/package.json apps/frontend/package.json
 
 

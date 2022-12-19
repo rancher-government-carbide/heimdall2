@@ -84,7 +84,7 @@ class Server extends VuexModule implements IServerState {
   SET_TOKEN(newToken: string) {
     this.token = newToken;
     localToken.set(newToken);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+    axios.defaults.headers.common['X-Heimdall-Authorization'] = `Bearer ${newToken}`;
   }
 
   @Mutation
@@ -144,6 +144,7 @@ class Server extends VuexModule implements IServerState {
    */
   @Action
   public async CheckForServer() {
+    axios.defaults.baseURL = "#####AXIOS_BASE_URL#####";
     // This is the only function that manipulates the loading state. If loading is already set
     // then we have already loaded the server information and there is no need to check again.
     if (!this.loading) {
