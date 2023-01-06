@@ -71,7 +71,3 @@ apps/frontend/public/static/export/jquery.min.js
 
 # Database Content
 data/*
-
-# Fork garbage
-.github/
-README.md
