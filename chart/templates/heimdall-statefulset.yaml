@@ -71,7 +71,7 @@ spec:
                   key: jwtSecret
             - name: JWT_TIMEOUT
               value: {{ .Values.jwtTimeout | quote }}
-            {{- if .Values.publicPath }}
+            {{- if .Values.heimdall.publicPath }}
             - name: PUBLIC_PATH
               value: {{ .Values.heimdall.publicPath | quote }}
             {{- end }}
