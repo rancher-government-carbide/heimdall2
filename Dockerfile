@@ -51,6 +51,12 @@ EXPOSE 3000
 COPY cmd.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/cmd.sh
 
+# Added for ClusterID retrieval
+RUN apk add jq && \
+    wget https://dl.k8s.io/release/v1.24.0/bin/linux/amd64/kubectl && \
+    mv kubectl /usr/local/bin && \
+    chmod +x /usr/local/bin/kubectl
+
 USER node
 
 CMD ["/usr/local/bin/cmd.sh"]

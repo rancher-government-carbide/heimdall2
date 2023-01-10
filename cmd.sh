@@ -4,7 +4,8 @@ if [[ "$APP_HEIMDALL_NAMESPACE" == "" ]]; then
   APP_HEIMDALL_NAMESPACE="cattle-compliance-system"
 fi
 
-if [[ "$HEIMDALL_NGINX_WORKLOAD" == "" ]]; then
+if [[ "$APP_HEIMDALL_NGINX_WORKLOAD" == "" ]]; then
+  echo "beep"
   APP_HEIMDALL_NGINX_WORKLOAD="heimdall-nginx"
 fi
 
@@ -17,16 +18,15 @@ if [[ "$RCIDF_PATH" == "" ]]; then
 fi
 
 if [ ! -f "$RCIDF_PATH" ]; then
-  if [[ "$PUBLIC_PATH" == "" ]]; then
-    echo "One of $RCIDF_PATH or PUBLIC_PATH must be defined."
-    exit 1
-  fi
+  echo "Retrieving the Cluster ID from cluster.."
+  CLUSTERID=$(kubectl get cm -n cattle-fleet-system fleet-agent -o json | jq -r '.data.config' | jq -r '.labels."management.cattle.io/cluster-name"')
 else
   # RCIDF PATH exists
   # use it to construct PUBIC_PATH
   CLUSTERID=$(cat $RCIDF_PATH)
-  PUBLIC_PATH="/k8s/clusters/$CLUSTERID/api/v1/namespaces/$APP_HEIMDALL_NAMESPACE/services/http:$APP_HEIMDALL_NGINX_WORKLOAD:$APP_HEIMDALL_NGINX_PORT/proxy"
 fi
+
+PUBLIC_PATH="/k8s/clusters/$CLUSTERID/api/v1/namespaces/$APP_HEIMDALL_NAMESPACE/services/http:$APP_HEIMDALL_NGINX_WORKLOAD:$APP_HEIMDALL_NGINX_PORT/proxy"
 
 if [[ "$ROUTER_BASE_PATH" == "" ]]; then
   ROUTER_BASE_PATH=$PUBLIC_PATH
