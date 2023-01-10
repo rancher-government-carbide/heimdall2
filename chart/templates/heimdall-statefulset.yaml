@@ -28,7 +28,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        {{- toYaml .Values.heimdall.podSecurityContext | nindent 8 }}
+        runAsUser: 1000
       containers:
         - name: heimdall-front
           securityContext:

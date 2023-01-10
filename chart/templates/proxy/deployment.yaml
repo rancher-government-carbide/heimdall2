@@ -11,6 +11,8 @@ spec:
       labels:
         cattle.io/app: {{ include "heimdall.fullname" . }}-proxy
     spec:
+      securityContext:
+        runAsUser: 499
       containers:
         - name: proxy
           image: {{ .Values.proxy.image }}:{{ .Values.proxy.tag }}

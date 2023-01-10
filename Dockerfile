@@ -57,6 +57,7 @@ RUN apk add jq && \
     mv kubectl /usr/local/bin && \
     chmod +x /usr/local/bin/kubectl
 
-USER node
+# Node User
+USER 1000
 
 CMD ["/usr/local/bin/cmd.sh"]
