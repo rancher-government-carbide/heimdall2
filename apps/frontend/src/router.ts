@@ -15,7 +15,7 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 const router = new Router({
-  base: "#####ROUTER_BASE_PATH#####",
+  base: "/",
   mode: 'history',
   routes: [
     {

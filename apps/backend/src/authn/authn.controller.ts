@@ -56,6 +56,15 @@ export class AuthnController {
     return this.authnService.login(req.user as User);
   }
 
+  @Get('kubernetes')
+  @UseGuards(AuthGuard('kubernetes'))
+  @UseFilters(new AuthenticationExceptionFilter())
+  async loginToKubernetes(
+    @Req() req: Request
+  ): Promise<{userID: string; accessToken: string}> {
+    return this.authnService.login(req.user as User);
+  }
+
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
   @UseFilters(new AuthenticationExceptionFilter())
