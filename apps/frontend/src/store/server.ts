@@ -35,6 +35,7 @@ export interface IServerState {
   ldap: boolean;
   localLoginEnabled: boolean;
   userInfo: IUser;
+  kubernetesEnabled: boolean;
 }
 
 interface LoginData {
@@ -58,6 +59,7 @@ class Server extends VuexModule implements IServerState {
   serverMode = false;
   registrationEnabled = true;
   localLoginEnabled = true;
+  kubernetesEnabled = false;
   loading = true;
   enabledOAuth: string[] = [];
   allUsers: ISlimUser[] = [];
@@ -104,6 +106,7 @@ class Server extends VuexModule implements IServerState {
     this.oidcName = settings.oidcName;
     this.ldap = settings.ldap;
     this.localLoginEnabled = settings.localLoginEnabled;
+    this.kubernetesEnabled = settings.kubernetesEnabled;
   }
 
   @Mutation
