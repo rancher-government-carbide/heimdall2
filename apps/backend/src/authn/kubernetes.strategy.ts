@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import e, { Request } from "express";
-import { Strategy } from "passport-jwt";
+import { Strategy } from "passport-local";
 import { KubernetesService } from "./kubernetes.service";
 
 @Injectable()
-export class KubernetesStrategy extends PassportStrategy(Strategy, 'rancher') {
+export class KubernetesStrategy extends PassportStrategy(Strategy, 'kubernetes') {
   constructor (private kubernetesService: KubernetesService) {
     super();
   }
@@ -15,6 +15,8 @@ export class KubernetesStrategy extends PassportStrategy(Strategy, 'rancher') {
 
     let allowed = await this.kubernetesService.checkK8sPerms(token)
 
-    return true
+    return allowed
   }
 }
+
+// if this isn't working, consider implementing the check in the super() call as found in apikey.strategy.ts

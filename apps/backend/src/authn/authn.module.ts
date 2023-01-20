@@ -12,6 +12,8 @@ import {GithubStrategy} from './github.strategy';
 import {GitlabStrategy} from './gitlab.strategy';
 import {GoogleStrategy} from './google.strategy';
 import {JwtStrategy} from './jwt.strategy';
+import { KubernetesService } from './kubernetes.service';
+import { KubernetesStrategy } from './kubernetes.strategy';
 import {LDAPStrategy} from './ldap.strategy';
 import {LocalStrategy} from './local.strategy';
 import {OidcStrategy} from './oidc.strategy';
@@ -36,7 +38,9 @@ import {OktaStrategy} from './okta.strategy';
     OktaStrategy,
     OidcStrategy,
     LDAPStrategy,
-    ApiKeyService
+    ApiKeyService,
+    KubernetesService,
+    KubernetesStrategy
   ],
   controllers: [AuthnController]
 })

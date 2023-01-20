@@ -62,6 +62,7 @@ export class AuthnController {
   async loginToKubernetes(
     @Req() req: Request
   ): Promise<{userID: string; accessToken: string}> {
+    console.log('called kubernetes auth fn')
     return this.authnService.login(req.user as User);
   }
 
