@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from '../config/config.service';
-import axios, { all, AxiosInstance, AxiosResponse } from 'axios';
+import axios, { all, Axios, AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import https from 'https';
 
 interface K8sObject {
@@ -63,31 +63,29 @@ export class KubernetesService {
     })
   }
 
-  public async checkK8sPerms(token: string | string[]) : Promise<string> {
+  public async checkK8sPerms(token: string | string[]) : Promise<void> {
     // for each k8s perm check if it is allowed or not
-    let err = "";
-    
-    this.perms.forEach((ra: ResourceAttributes) => {
-      this.httpClient({
-        method: 'post',
-        url: 'https://localhost:8001/apis/authorization.k8s.io/v1/selfsubjectaccessreviews',
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Accepts': 'json'
-        },
-        data: new SelfSubjectAccessReview(ra)
-      }).then((res: AxiosResponse) => {
-        let ssar = res.data as SelfSubjectAccessReview
+    for (const perm of this.perms) {
+      try { 
+        let res = await this.httpClient({
+          method: 'post',
+          url: this.configService.get('K8S_URL') + '/apis/authorization.k8s.io/v1/selfsubjectaccessreviews',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Accepts': 'json'
+          },
+          data: new SelfSubjectAccessReview(perm)
+        })
 
-        if (!ssar.status.allowed) {
-          err = "Permission denied"
+        if ( !(res.data as SelfSubjectAccessReview).status.allowed ) {
+          throw new Error("not allowed")
         }
-      }).catch((e: any) => {
-        err = e
-      })
-    })
+      } catch (e: any) {
+        throw new Error("not allowed")
+      }
+    }
 
-    return err
+    return
   }
 
   private _parsePerms(permString: string) : ResourceAttributes[] {

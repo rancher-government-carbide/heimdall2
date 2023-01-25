@@ -56,13 +56,12 @@ export class AuthnController {
     return this.authnService.login(req.user as User);
   }
 
-  @Get('kubernetes')
-  @UseGuards(AuthGuard('kubernetes'))
+  @Get('rancher')
+  @UseGuards(AuthGuard('rancher'))
   @UseFilters(new AuthenticationExceptionFilter())
-  async loginToKubernetes(
+  async loginToRancher(
     @Req() req: Request
   ): Promise<{userID: string; accessToken: string}> {
-    console.log('called kubernetes auth fn')
     return this.authnService.login(req.user as User);
   }
 

@@ -199,7 +199,11 @@ export default class LocalLogin extends Vue {
     };
     ServerModule.Login(creds)
       .then(() => {
-        this.$router.push('/');
+        if (this.$route.query['redirect']) {
+          this.$router.push(this.$route.query['redirect'] as string);
+        } else {
+          this.$router.push('/');
+        }
         SnackbarModule.notify('You have successfully signed in.');
       })
       .finally(() => {
@@ -232,7 +236,13 @@ export default class LocalLogin extends Vue {
   }
 
   kubernetesLogin() {
-    window.location.href = '/authn/kubernetes';
+    ServerModule.LoginRancher().then(() => {
+      if (this.$route.query['redirect']) {
+        this.$router.push(this.$route.query['redirect'] as string);
+      } else {
+        this.$router.push('/');
+      }
+    });
   }
 
   get oidcName() {

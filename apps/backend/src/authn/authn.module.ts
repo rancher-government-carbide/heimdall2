@@ -13,11 +13,12 @@ import {GitlabStrategy} from './gitlab.strategy';
 import {GoogleStrategy} from './google.strategy';
 import {JwtStrategy} from './jwt.strategy';
 import { KubernetesService } from './kubernetes.service';
-import { KubernetesStrategy } from './kubernetes.strategy';
+import { RancherStrategy } from './rancher.strategy';
 import {LDAPStrategy} from './ldap.strategy';
 import {LocalStrategy} from './local.strategy';
 import {OidcStrategy} from './oidc.strategy';
 import {OktaStrategy} from './okta.strategy';
+import { RancherService } from './rancher.service';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import {OktaStrategy} from './okta.strategy';
     LDAPStrategy,
     ApiKeyService,
     KubernetesService,
-    KubernetesStrategy
+    RancherService,
+    RancherStrategy
   ],
   controllers: [AuthnController]
 })

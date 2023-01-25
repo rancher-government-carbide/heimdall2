@@ -86,7 +86,9 @@ class Server extends VuexModule implements IServerState {
   SET_TOKEN(newToken: string) {
     this.token = newToken;
     localToken.set(newToken);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+    axios.defaults.headers.common[
+      'X-Heimdall-Authorization'
+    ] = `Bearer ${newToken}`;
   }
 
   @Mutation
@@ -147,7 +149,7 @@ class Server extends VuexModule implements IServerState {
    */
   @Action
   public async CheckForServer() {
-    axios.defaults.baseURL = '/';
+    axios.defaults.baseURL = '#####AXIOS_BASE_URL#####';
     // This is the only function that manipulates the loading state. If loading is already set
     // then we have already loaded the server information and there is no need to check again.
     if (!this.loading) {
@@ -204,6 +206,23 @@ class Server extends VuexModule implements IServerState {
       .then(({data}) => {
         this.handleLogin(data);
       });
+  }
+
+  @Action
+  public async LoginRancher() {
+    // grab the token from the cookie
+    const tok = Vue.$cookies.get('R_SESS');
+
+    return axios({
+      method: 'get',
+      url: '/authn/rancher',
+      headers: {
+        Authorization: 'Bearer ' + tok,
+        Accept: 'application/json'
+      }
+    }).then(({data}) => {
+      this.handleLogin(data);
+    });
   }
 
   @Action
