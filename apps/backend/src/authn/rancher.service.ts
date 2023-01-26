@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import axios, { Axios, AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import https from 'https';
 import { ConfigService } from "src/config/config.service";
 
