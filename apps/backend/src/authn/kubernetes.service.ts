@@ -69,7 +69,8 @@ export class KubernetesService {
       try { 
         let res = await this.httpClient({
           method: 'post',
-          url: this.configService.get('RANCHER_URL') + '/k8s/clusters/' + this.configService.get('RANCHER_CLUSTER_ID') + '/apis/authorization.k8s.io/v1/selfsubjectaccessreviews',
+          // url: this.configService.get('RANCHER_URL') + '/k8s/clusters/' + this.configService.get('RANCHER_CLUSTER_ID') + '/apis/authorization.k8s.io/v1/selfsubjectaccessreviews',
+          url: this.configService.get('RANCHER_URL') + '/k8s/clusters/c-m-kmgjdvd5/apis/authorization.k8s.io/v1/selfsubjectaccessreviews',
           headers: {
             'Authorization': 'Bearer ' + token,
             'Accepts': 'json'

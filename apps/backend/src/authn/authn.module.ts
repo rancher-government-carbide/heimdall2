@@ -19,6 +19,7 @@ import {LocalStrategy} from './local.strategy';
 import {OidcStrategy} from './oidc.strategy';
 import {OktaStrategy} from './okta.strategy';
 import { RancherService } from './rancher.service';
+import { GroupsModule } from 'src/groups/groups.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { RancherService } from './rancher.service';
     UsersModule,
     PassportModule,
     TokenModule,
-    ConfigModule
+    ConfigModule,
+    GroupsModule
   ],
   providers: [
     AuthnService,
