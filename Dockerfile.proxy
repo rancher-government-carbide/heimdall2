@@ -1,1 +1,19 @@
-FROM postgres:13
+FROM registry.suse.com/bci/bci-base:15.4
+
+RUN zypper install -y nginx && \
+    rm -rf /srv/www/htdocs
+
+COPY proxy/build/nginx.conf /etc/nginx/nginx.conf
+COPY proxy/build/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN mkdir /pid && \
+    chown -R nginx:nginx /pid /etc/nginx && \
+    chown nginx:nginx /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh
+
+EXPOSE 8080
+
+# Nginx User ID
+USER 499
+
+CMD [ "entrypoint.sh" ]
