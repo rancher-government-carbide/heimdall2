@@ -3984,6 +3984,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cookie-parser@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@types/cookie-parser/-/cookie-parser-1.4.3.tgz#3a01df117c5705cf89a84c876b50c5a1fd427a21"
+  integrity sha512-CqSKwFwefj4PzZ5n/iwad/bow2hTCh0FlNAeWLtQM3JA/NX/iYagIpWG2cf1bQKQ2c9gU2log5VUCrn7LDOs0w==
+  dependencies:
+    "@types/express" "*"
+
 "@types/cookiejar@*":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@types/cookiejar/-/cookiejar-2.1.2.tgz#66ad9331f63fe8a3d3d9d8c6e3906dd10f6446e8"
@@ -8033,6 +8040,14 @@ convert-source-map@^1.4.0, convert-source-map@^1.5.1, convert-source-map@^1.6.0,
   integrity sha512-+OQdjP49zViI/6i7nIJpA8rAl4sV/JdPfU9nZs3VqOwGIgizICvuN2ru6fMd+4llL0tar18UYJXfZ/TWtmhUjA==
   dependencies:
     safe-buffer "~5.1.1"
+
+cookie-parser@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.6.tgz#3ac3a7d35a7a03bbc7e365073a26074824214594"
+  integrity sha512-z3IzaNjdwUC2olLIB5/ITd0/setiaFMLYiZJle7xg5Fe9KWAceil7xszYfHHBtDFYLSgJduS2Ty0P1uJdPDJeA==
+  dependencies:
+    cookie "0.4.1"
+    cookie-signature "1.0.6"
 
 cookie-signature@1.0.6:
   version "1.0.6"
@@ -16317,12 +16332,12 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
-passport-custom@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/passport-custom/-/passport-custom-1.1.1.tgz#71db3d7ec1d7d0085e8768507f61b26d88051c0a"
-  integrity sha512-/2m7jUGxmCYvoqenLB9UrmkCgPt64h8ZtV+UtuQklZ/Tn1NpKBeOorCYkB/8lMRoiZ5hUrCoMmDtxCS/d38mlg==
+passport-cookie@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/passport-cookie/-/passport-cookie-1.0.9.tgz#a21dca7ce6cc95fb929083a171a9f894024dcecb"
+  integrity sha512-8a6foX2bbGoJzup0RAiNcC2tTqzYS46RQEK3Z4u8p86wesPUjgDaji3C7+5j4TGyCq4ZoOV+3YLw1Hy6cV6kyw==
   dependencies:
-    passport-strategy "1.x.x"
+    passport-strategy "^1.0.0"
 
 passport-github@^1.1.0:
   version "1.1.0"
