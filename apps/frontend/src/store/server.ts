@@ -212,7 +212,7 @@ class Server extends VuexModule implements IServerState {
   public async LoginRancher() {
     return axios({
       method: 'get',
-      url: '/authn/rancher',
+      url: '/authn/rancher'
     }).then(({data}) => {
       this.handleLogin(data);
     });
