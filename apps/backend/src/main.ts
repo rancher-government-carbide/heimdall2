@@ -10,6 +10,7 @@ import session = require('express-session');
 import postgresSessionStore = require('connect-pg-simple');
 import helmet = require('helmet');
 import passport = require('passport');
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -46,6 +47,7 @@ async function bootstrap() {
     })
   );
   app.use(json({limit: '50mb'}));
+  app.use(cookieParser())
   app.use(passport.initialize());
   // Sessions are only used for oauth callbacks
   if (configService.enabledOauthStrategies().length) {
