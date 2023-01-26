@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from '../config/config.service';
-import axios, { all, Axios, AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import https from 'https';
 
 interface K8sObject {
@@ -69,7 +69,7 @@ export class KubernetesService {
       try { 
         let res = await this.httpClient({
           method: 'post',
-          url: this.configService.get('K8S_URL') + '/apis/authorization.k8s.io/v1/selfsubjectaccessreviews',
+          url: this.configService.get('RANCHER_URL') + '/k8s/clusters/' + this.configService.get('RANCHER_CLUSTER_ID') + '/apis/authorization.k8s.io/v1/selfsubjectaccessreviews',
           headers: {
             'Authorization': 'Bearer ' + token,
             'Accepts': 'json'
@@ -81,6 +81,7 @@ export class KubernetesService {
           throw new Error("not allowed")
         }
       } catch (e: any) {
+        console.log(e);
         throw new Error("not allowed")
       }
     }
