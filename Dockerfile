@@ -9,15 +9,26 @@ WORKDIR /src
 USER 0
 
 COPY package.json yarn.lock lerna.json tsconfig.json .prettierrc ./
-COPY apps ./apps
-COPY libs ./libs
+# COPY apps ./apps
+# COPY libs ./libs
+
+COPY apps/frontend/package.json ./apps/frontend/package.json
+COPY apps/backend/package.json ./apps/backend/package.json
+COPY libs/hdf-converters/package.json ./libs/hdf-converters/package.json
+COPY libs/inspecjs/package.json ./libs/inspecjs/package.json
+COPY libs/interfaces/package.json ./libs/interfaces/package.json
+COPY libs/password-complexity/package.json ./libs/password-complexity/package.json
+
 RUN chmod 0500 -R apps libs
 RUN apk add python3 make g++
 RUN sed -i s^https://registry.yarnpkg.com^$YARNREPO^g yarn.lock
 RUN yarn --frozen-lockfile --production --network-timeout 600000
 
+COPY --chown=node apps ./apps
+COPY --chown=node libs ./libs
+
 RUN yarn run build
-RUN chown -R node apps libs package.json
+# RUN chown -R node apps libs package.json
 RUN chmod 0400 package.json libs/interfaces/package.json tsconfig.json .prettierrc
 RUN chmod 0500 -R apps libs
 
