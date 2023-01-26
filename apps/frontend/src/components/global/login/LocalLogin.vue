@@ -152,9 +152,9 @@
               <v-img
                 max-width="32"
                 max-height="32"
-                :src="require('@/assets/k8s_mark.png')"
+                :src="require('@/assets/rancher_mark.png')"
               />
-              <div class="pl-2">Login with Kubernetes</div>
+              <div class="pl-2">Login with Rancher</div>
             </v-btn>
           </div>
         </div>
