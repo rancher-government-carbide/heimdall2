@@ -16,6 +16,16 @@ if [[ "$RCIDF_PATH" == "" ]]; then
   RCIDF_PATH="/rancher/id"
 fi
 
+if [[ "$RANCHER_CLUSTER_ID" == "" ]]; then
+  # no rancher cluster id
+  # try via rcidf, otherwise bail
+  export RANCHER_CLUSTER_ID=$(cat $RCIDF_PATH)
+  if [[ "RANCHER_CLUSTER_ID" == "" ]]; then
+    echo "Unable to configure Rancher Cluster ID. Exiting"
+    exit 1
+  fi
+fi
+
 if [ ! -f "$RCIDF_PATH" ]; then
   if [[ "$PUBLIC_PATH" == "" ]]; then
     echo "One of $RCIDF_PATH or PUBLIC_PATH must be defined."
@@ -24,8 +34,7 @@ if [ ! -f "$RCIDF_PATH" ]; then
 else
   # RCIDF PATH exists
   # use it to construct PUBIC_PATH
-  CLUSTERID=$(cat $RCIDF_PATH)
-  PUBLIC_PATH="/k8s/clusters/$CLUSTERID/api/v1/namespaces/$APP_HEIMDALL_NAMESPACE/services/http:$APP_HEIMDALL_NGINX_WORKLOAD:$APP_HEIMDALL_NGINX_PORT/proxy"
+  PUBLIC_PATH="/k8s/clusters/$RANCHER_CLUSTER_ID/api/v1/namespaces/$APP_HEIMDALL_NAMESPACE/services/http:$APP_HEIMDALL_NGINX_WORKLOAD:$APP_HEIMDALL_NGINX_PORT/proxy"
 fi
 
 if [[ "$ROUTER_BASE_PATH" == "" ]]; then
