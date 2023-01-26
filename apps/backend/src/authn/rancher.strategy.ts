@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
-import { Strategy } from 'passport-http-header-strategy';
+import { Strategy } from 'passport-cookie';
 import { User } from "src/users/user.model";
 import { AuthnService } from "./authn.service";
 import { KubernetesService } from "./kubernetes.service";
@@ -13,7 +13,10 @@ export class RancherStrategy extends PassportStrategy(Strategy, 'rancher')  {
     rancherService: RancherService,
     authnService: AuthnService
   ){
-    super(async function(token: string, done: any) {
+    super({
+      cookieName: 'R_SESS'
+    },
+      async function(token: string, done: any) {
       try {
         let _ = await k8sService.checkK8sPerms(token)
 
@@ -27,6 +30,7 @@ export class RancherStrategy extends PassportStrategy(Strategy, 'rancher')  {
       } catch (err) {
         return done(err, false);
       }
-    });
+    }
+    );
   }
 }
