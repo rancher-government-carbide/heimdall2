@@ -210,16 +210,9 @@ class Server extends VuexModule implements IServerState {
 
   @Action
   public async LoginRancher() {
-    // grab the token from the cookie
-    const tok = Vue.$cookies.get('R_SESS');
-
     return axios({
       method: 'get',
       url: '/authn/rancher',
-      headers: {
-        Authorization: 'Bearer ' + tok,
-        Accept: 'application/json'
-      }
     }).then(({data}) => {
       this.handleLogin(data);
     });
