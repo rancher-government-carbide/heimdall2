@@ -57,6 +57,7 @@ export class ConfigService {
       ldap: this.get('LDAP_ENABLED')?.toLocaleLowerCase() === 'true' || false,
       registrationEnabled: this.isRegistrationAllowed(),
       localLoginEnabled: this.isLocalLoginAllowed(),
+      disableUpdateCheck: !!this.get('DISABLE_UPDATE_CHECK'),
       kubernetesEnabled: this.get('K8S_PERMS') != undefined
     });
   }

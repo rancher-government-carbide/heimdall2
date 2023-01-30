@@ -9,4 +9,5 @@ export interface IStartupSettings {
   readonly registrationEnabled: boolean;
   readonly localLoginEnabled: boolean;
   readonly kubernetesEnabled: boolean;
+  readonly disableUpdateCheck: boolean;
 }

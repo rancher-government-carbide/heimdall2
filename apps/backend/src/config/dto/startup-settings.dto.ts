@@ -11,6 +11,8 @@ export class StartupSettingsDto implements IStartupSettings {
   readonly registrationEnabled: boolean;
   readonly localLoginEnabled: boolean;
   readonly kubernetesEnabled: boolean;
+  readonly disableUpdateCheck: boolean;
+
 
   constructor(settings: IStartupSettings) {
     this.banner = settings.banner;
@@ -23,5 +25,6 @@ export class StartupSettingsDto implements IStartupSettings {
     this.registrationEnabled = settings.registrationEnabled;
     this.localLoginEnabled = settings.localLoginEnabled;
     this.kubernetesEnabled = settings.kubernetesEnabled;
+    this.disableUpdateCheck = settings.disableUpdateCheck;
   }
 }
