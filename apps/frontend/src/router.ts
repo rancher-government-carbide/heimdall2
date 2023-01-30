@@ -15,7 +15,7 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 const router = new Router({
-  base: "#####ROUTER_BASE_PATH#####",
+  base: '#####ROUTER_BASE_PATH#####',
   mode: 'history',
   routes: [
     {
@@ -86,7 +86,7 @@ router.beforeEach((to, _, next) => {
     AppInfoModule.CheckForUpdates();
     if (to.matched.some((record) => record.meta.requiresAuth)) {
       if (ServerModule.serverMode && !ServerModule.token) {
-        next('/login');
+        next({path: '/login', query: {redirect: to.path}});
         return;
       }
     }
@@ -96,6 +96,7 @@ router.beforeEach((to, _, next) => {
         return;
       }
     }
+
     if (to.params.id && to.params.id !== 'all') {
       EvaluationModule.load_results(to.params.id.split(','));
     }

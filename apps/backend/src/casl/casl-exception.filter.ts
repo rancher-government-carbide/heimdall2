@@ -10,6 +10,7 @@ export class CaslExceptionFilter extends BaseExceptionFilter {
     if (exception instanceof ForbiddenError) {
       super.catch(new ForbiddenException(exception.message), host);
     } else {
+      console.log(exception, host);
       super.catch(exception, host);
     }
   }

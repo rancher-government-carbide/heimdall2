@@ -142,6 +142,20 @@
               />
               <div class="pl-2">Login with Okta</div>
             </v-btn>
+            <v-btn
+              v-show="kubernetesEnabled"
+              id="oauth-k8s"
+              class="mt-5 flex-fill"
+              plain
+              @click="kubernetesLogin()"
+            >
+              <v-img
+                max-width="32"
+                max-height="32"
+                :src="require('@/assets/rancher_mark.png')"
+              />
+              <div class="pl-2">Login with Rancher</div>
+            </v-btn>
           </div>
         </div>
       </v-container>
@@ -185,7 +199,11 @@ export default class LocalLogin extends Vue {
     };
     ServerModule.Login(creds)
       .then(() => {
-        this.$router.push('/');
+        if (this.$route.query['redirect']) {
+          this.$router.push(this.$route.query['redirect'] as string);
+        } else {
+          this.$router.push('/');
+        }
         SnackbarModule.notify('You have successfully signed in.');
       })
       .finally(() => {
@@ -194,7 +212,9 @@ export default class LocalLogin extends Vue {
   }
 
   get showAlternateAuth() {
-    return ServerModule.enabledOAuth.length !== 0;
+    return (
+      ServerModule.enabledOAuth.length !== 0 || ServerModule.kubernetesEnabled
+    );
   }
 
   get localLoginEnabled() {
@@ -215,12 +235,26 @@ export default class LocalLogin extends Vue {
     window.location.href = `/authn/${site}`;
   }
 
+  kubernetesLogin() {
+    ServerModule.LoginRancher().then(() => {
+      if (this.$route.query['redirect']) {
+        this.$router.push(this.$route.query['redirect'] as string);
+      } else {
+        this.$router.push('/');
+      }
+    });
+  }
+
   get oidcName() {
     return ServerModule.oidcName;
   }
 
   get registrationEnabled() {
     return ServerModule.registrationEnabled;
+  }
+
+  get kubernetesEnabled() {
+    return ServerModule.kubernetesEnabled;
   }
 }
 </script>

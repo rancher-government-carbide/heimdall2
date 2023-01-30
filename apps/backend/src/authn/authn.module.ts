@@ -12,10 +12,14 @@ import {GithubStrategy} from './github.strategy';
 import {GitlabStrategy} from './gitlab.strategy';
 import {GoogleStrategy} from './google.strategy';
 import {JwtStrategy} from './jwt.strategy';
+import { KubernetesService } from './kubernetes.service';
+import { RancherStrategy } from './rancher.strategy';
 import {LDAPStrategy} from './ldap.strategy';
 import {LocalStrategy} from './local.strategy';
 import {OidcStrategy} from './oidc.strategy';
 import {OktaStrategy} from './okta.strategy';
+import { RancherService } from './rancher.service';
+import { GroupsModule } from 'src/groups/groups.module';
 
 @Module({
   imports: [
@@ -23,7 +27,8 @@ import {OktaStrategy} from './okta.strategy';
     UsersModule,
     PassportModule,
     TokenModule,
-    ConfigModule
+    ConfigModule,
+    GroupsModule
   ],
   providers: [
     AuthnService,
@@ -36,7 +41,10 @@ import {OktaStrategy} from './okta.strategy';
     OktaStrategy,
     OidcStrategy,
     LDAPStrategy,
-    ApiKeyService
+    ApiKeyService,
+    KubernetesService,
+    RancherService,
+    RancherStrategy
   ],
   controllers: [AuthnController]
 })

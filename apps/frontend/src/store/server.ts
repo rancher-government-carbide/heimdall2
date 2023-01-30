@@ -35,6 +35,7 @@ export interface IServerState {
   ldap: boolean;
   localLoginEnabled: boolean;
   userInfo: IUser;
+  kubernetesEnabled: boolean;
   disableUpdateCheck: boolean;
 }
 
@@ -60,6 +61,7 @@ class Server extends VuexModule implements IServerState {
   serverMode = false;
   registrationEnabled = true;
   localLoginEnabled = true;
+  kubernetesEnabled = false;
   loading = true;
   enabledOAuth: string[] = [];
   allUsers: ISlimUser[] = [];
@@ -86,7 +88,9 @@ class Server extends VuexModule implements IServerState {
   SET_TOKEN(newToken: string) {
     this.token = newToken;
     localToken.set(newToken);
-    axios.defaults.headers.common['X-Heimdall-Authorization'] = `Bearer ${newToken}`;
+    axios.defaults.headers.common[
+      'X-Heimdall-Authorization'
+    ] = `Bearer ${newToken}`;
   }
 
   @Mutation
@@ -106,6 +110,7 @@ class Server extends VuexModule implements IServerState {
     this.oidcName = settings.oidcName;
     this.ldap = settings.ldap;
     this.localLoginEnabled = settings.localLoginEnabled;
+    this.kubernetesEnabled = settings.kubernetesEnabled;
     this.disableUpdateCheck = settings.disableUpdateCheck;
   }
 
@@ -147,7 +152,7 @@ class Server extends VuexModule implements IServerState {
    */
   @Action
   public async CheckForServer() {
-    axios.defaults.baseURL = "#####AXIOS_BASE_URL#####";
+    axios.defaults.baseURL = '#####AXIOS_BASE_URL#####';
     // This is the only function that manipulates the loading state. If loading is already set
     // then we have already loaded the server information and there is no need to check again.
     if (!this.loading) {
@@ -204,6 +209,16 @@ class Server extends VuexModule implements IServerState {
       .then(({data}) => {
         this.handleLogin(data);
       });
+  }
+
+  @Action
+  public async LoginRancher() {
+    return axios({
+      method: 'get',
+      url: '/authn/rancher'
+    }).then(({data}) => {
+      this.handleLogin(data);
+    });
   }
 
   @Action

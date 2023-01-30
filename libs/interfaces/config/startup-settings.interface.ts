@@ -8,5 +8,6 @@ export interface IStartupSettings {
   readonly ldap: boolean;
   readonly registrationEnabled: boolean;
   readonly localLoginEnabled: boolean;
+  readonly kubernetesEnabled: boolean;
   readonly disableUpdateCheck: boolean;
 }
