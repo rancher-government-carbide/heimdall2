@@ -51,7 +51,7 @@ COPY --chown=node --from=builder /src/apps/backend/db /app/apps/backend/db
 COPY --chown=node --from=builder /src/apps/backend/config /app/apps/backend/config
 COPY --chown=node --from=builder /src/apps/backend/migrations /app/apps/backend/migrations
 COPY --chown=node --from=builder /src/apps/backend/seeders /app/apps/backend/seeders
-# RUN chown -R node /app
+RUN chown -R node /app
 # RUN chown node package.json libs libs/interfaces libs/interfaces/package.json libs/password-complexity apps/backend/node_modules apps/backend/seeders apps/backend/config apps/backend/db apps/backend/migrations apps/backend/seeders apps/backend/package.json apps/backend apps/frontend apps/frontend/package.json
 # RUN chown node dist/frontend/js dist/frontend/js/* dist/frontend dist/frontend/*
 RUN chmod 0400 libs/interfaces/package.json apps/frontend/package.json
