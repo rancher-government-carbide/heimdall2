@@ -74,8 +74,7 @@ export function calculateCompliance(filter: Filter) {
   const total =
     passed +
     StatusCountModule.countOf(filter, 'Failed') +
-    StatusCountModule.countOf(filter, 'Profile Error') +
-    StatusCountModule.countOf(filter, 'Not Reviewed');
+    StatusCountModule.countOf(filter, 'Profile Error');
   if (total === 0) {
     return 0;
   } else {

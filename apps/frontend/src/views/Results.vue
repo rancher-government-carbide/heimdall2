@@ -127,7 +127,7 @@
                 <ComplianceChart :filter="all_filter" />
               </v-card-actions>
               <v-card-text style="text-align: center"
-                >[Passed/(Passed + Failed + Not Reviewed + Profile Error<span
+                >[Passed/(Passed + Failed + Profile Error<span
                   v-if="waivedProfilesExist"
                 >
                   + Waived</span
