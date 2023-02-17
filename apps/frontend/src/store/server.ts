@@ -297,9 +297,18 @@ class Server extends VuexModule implements IServerState {
       .catch((error) => {
         this.CLEAR_USERID();
         this.CLEAR_TOKEN();
-        location.replace(
-          `#####AXIOS_BASE_URL#####/login?logoff=true&error=${error.response.data.message}`
-        );
+
+        var path = (window.location.pathname).replace("#####AXIOS_BASE_URL#####", "");
+
+        if (path == "") {
+          location.replace(
+            `#####AXIOS_BASE_URL#####/login?logoff=true&error=${error.response.data.message}`
+          );
+        } else {
+          location.replace(
+            `#####AXIOS_BASE_URL#####/login?logoff=true&error=${error.response.data.message}&redirect=${encodeURIComponent(path)}`
+          );
+        }
       });
   }
 }
